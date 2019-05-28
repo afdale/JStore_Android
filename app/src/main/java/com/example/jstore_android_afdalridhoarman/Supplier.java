@@ -118,4 +118,12 @@ public class Supplier {
     {
         this.locationSupplier=locationSupplier;
     }
+
+    public String getName() {
+        return nameSupplier;
+    }
+
+    public int getId() {
+        return idSupplier;
+    }
 }

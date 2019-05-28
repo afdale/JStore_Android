@@ -1,10 +1,5 @@
 package com.example.jstore_android_afdalridhoarman;
 
-import android.widget.BaseExpandableListAdapter;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -13,22 +8,25 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class MainListAdapter extends BaseExpandableListAdapter {
     private Context _context;
-    private ArrayList<Supplier> listSupplier; // header titles
-    // child data in format of header title, child title
-    private HashMap<Supplier, ArrayList<Item>> childMapping;
+    private ArrayList<String> _listDataHeader;
+    private HashMap<String, ArrayList<String>> _listDataChild;
 
-    public MainListAdapter(ArrayList<Supplier> listSupplier,
-                           HashMap<Supplier, ArrayList<Item>> childMapping) {
-        this.listSupplier = listSupplier;
-        this.childMapping = childMapping;
+    public MainListAdapter(Context context, ArrayList<String> listDataHeader, HashMap<String, ArrayList<String>> listChildData) {
+        this._context = context;
+        this._listDataHeader = listDataHeader;
+        this._listDataChild = listChildData;
     }
 
     @Override
-    public Object getChild(int groupPosition, int childPosititon) {
-        return this.childMapping.get(this.listSupplier.get(groupPosition))
-                .get(childPosititon);
+    public Object getChild(int groupPosition, int childPosition) {
+        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+                .get(childPosition);
     }
 
     @Override
@@ -37,19 +35,16 @@ public class MainListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, final int childPosition,
-                             boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
         final String childText = (String) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.layout_item, null);
         }
 
-        TextView txtListChild = (TextView) convertView
-                .findViewById(R.id.child);
+        TextView txtListChild = convertView.findViewById(R.id.lblListItem);
 
         txtListChild.setText(childText);
         return convertView;
@@ -57,18 +52,17 @@ public class MainListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this.childMapping.get(this.listSupplier.get(groupPosition))
-                .size();
+        return this._listDataChild.get(this._listDataHeader.get(groupPosition)).size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this.listSupplier.get(groupPosition);
+        return this._listDataHeader.get(groupPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return this.listSupplier.size();
+        return this._listDataHeader.size();
     }
 
     @Override
@@ -86,8 +80,8 @@ public class MainListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.layout_supplier, null);
         }
 
-        TextView lblListHeader = (TextView) convertView
-                .findViewById(R.id.groupHeader);
+        TextView lblListHeader = convertView
+                .findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
 

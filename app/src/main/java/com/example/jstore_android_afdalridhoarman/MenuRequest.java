@@ -8,17 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MenuRequest extends StringRequest {
-    private static final String Regis_URL = "http://10.10.44.78:8080/items";
-    private Map<String, String> params;
+    private static final String Menu_URL = "http://10.0.2.2:8080/items";
 
-    public MenuRequest(int id, Response.Listener<String> listener){
-        super(Method.GET, Regis_URL, listener, null);
-        params = new HashMap<>();
-        params.put("id", Integer.toString(id));
-    }
-
-    @Override
-    public Map<String, String> getParams(){
-        return params;
+    public MenuRequest(Response.Listener<String> listener) {
+        super(Method.GET, Menu_URL, listener, null);
     }
 }

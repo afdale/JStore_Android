@@ -21,16 +21,18 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        final EditText namaReg = (EditText) findViewById(R.id.namaReg);
-        final EditText emailReg = (EditText) findViewById(R.id.emailReg);
-        final EditText passReg = (EditText) findViewById(R.id.passReg);
-        final Button buttonReg = (Button) findViewById(R.id.buttonReg);
+        final EditText namaReg = (EditText) findViewById(R.id.nameInput);
+        final EditText emailReg = (EditText) findViewById(R.id.emailInput);
+        final EditText passReg = (EditText) findViewById(R.id.passInput);
+        final EditText userReg = (EditText) findViewById(R.id.userInput);
+        final Button buttonReg = (Button) findViewById(R.id.registerButton);
 
         buttonReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String nama = namaReg.getText().toString();
-                final String email = emailReg.getText().toString();
+                final String email = userReg.getText().toString();
+                final String user = emailReg.getText().toString();
                 final String password = passReg.getText().toString();
 
                 Response.Listener<String> responeListener = new Response.Listener<String>() {
@@ -48,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     }
                 };
-                RegisterRequest registerRequest = new RegisterRequest(nama, email, password, responeListener);
+                RegisterRequest registerRequest = new RegisterRequest(nama, email,user, password, responeListener);
                 RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                 queue.add(registerRequest);
 
